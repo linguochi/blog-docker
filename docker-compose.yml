@@ -1,8 +1,8 @@
 version: "3"
 services:
-  iyang-build:
-    image: yangzhyo/iyang-build
-    container_name: iyang-build
+  hexo-build:
+    image: linguochi/hexo-build
+    container_name: hexo-build
     volumes:
       - /opt:/app
   nginx-proxy:
@@ -31,37 +31,26 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       - NGINX_PROXY_CONTAINER=nginx-proxy
-  iyang-server:
-    image: yangzhyo/iyang
-    container_name: iyang-server
+  lingc-server:
+    image: linguochi/hexo-blog
+    container_name: hexo-blog
     depends_on:
       - letsencrypt
     environment:
-      - VIRTUAL_HOST=iya.ng,www.iya.ng,yangzhiyong.com,www.yangzhiyong.com
-      - LETSENCRYPT_HOST=iya.ng,www.iya.ng,yangzhiyong.com,www.yangzhiyong.com
-      - LETSENCRYPT_EMAIL=yangzhyo@gmail.com
+      - VIRTUAL_HOST=linguochi.com,www.linguochi.com
+      - LETSENCRYPT_HOST=linguochi.com,www.linguochi.com
+      - LETSENCRYPT_EMAIL=linguochi@gmail.com
     volumes:
       - /opt:/app
-  iyang-webhook:
-    image: yangzhyo/iyang-webhook
-    container_name: iyang-webhook
+  lingc-webhook:
+    image: linguochi/lingc-webhook
+    container_name: lingc-webhook
     depends_on:
-      - iyang-server
+      - lingc-server
     environment:
-      - VIRTUAL_HOST=deploy.iya.ng
-      - LETSENCRYPT_HOST=deploy.iya.ng
-      - LETSENCRYPT_EMAIL=yangzhyo@gmail.com
-    volumes:
-      - /opt:/app
-  iyang-asset:
-    image: yangzhyo/iyang-asset
-    container_name: iyang-asset
-    depends_on:
-      - letsencrypt
-    environment:
-      - VIRTUAL_HOST=a.iya.ng
-      - LETSENCRYPT_HOST=a.iya.ng
-      - LETSENCRYPT_EMAIL=yangzhyo@gmail.com
+      - VIRTUAL_HOST=deploy.linguochi.com
+      - LETSENCRYPT_HOST=deploy.linguochi.com
+      - LETSENCRYPT_EMAIL=linguochi@gmail.com
     volumes:
       - /opt:/app
 volumes:
