@@ -1,0 +1,72 @@
+version: "3"
+services:
+  iyang-build:
+    image: yangzhyo/iyang-build
+    container_name: iyang-build
+    volumes:
+      - /opt:/app
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - conf:/etc/nginx/conf.d
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - dhparam:/etc/nginx/dhparam
+      - certs:/etc/nginx/certs:ro
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: letsencrypt
+    depends_on:
+      - nginx-proxy
+    volumes:
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - dhparam:/etc/nginx/dhparam:ro
+      - certs:/etc/nginx/certs
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+  iyang-server:
+    image: yangzhyo/iyang
+    container_name: iyang-server
+    depends_on:
+      - letsencrypt
+    environment:
+      - VIRTUAL_HOST=iya.ng,www.iya.ng,yangzhiyong.com,www.yangzhiyong.com
+      - LETSENCRYPT_HOST=iya.ng,www.iya.ng,yangzhiyong.com,www.yangzhiyong.com
+      - LETSENCRYPT_EMAIL=yangzhyo@gmail.com
+    volumes:
+      - /opt:/app
+  iyang-webhook:
+    image: yangzhyo/iyang-webhook
+    container_name: iyang-webhook
+    depends_on:
+      - iyang-server
+    environment:
+      - VIRTUAL_HOST=deploy.iya.ng
+      - LETSENCRYPT_HOST=deploy.iya.ng
+      - LETSENCRYPT_EMAIL=yangzhyo@gmail.com
+    volumes:
+      - /opt:/app
+  iyang-asset:
+    image: yangzhyo/iyang-asset
+    container_name: iyang-asset
+    depends_on:
+      - letsencrypt
+    environment:
+      - VIRTUAL_HOST=a.iya.ng
+      - LETSENCRYPT_HOST=a.iya.ng
+      - LETSENCRYPT_EMAIL=yangzhyo@gmail.com
+    volumes:
+      - /opt:/app
+volumes:
+  conf:
+  vhost:
+  html:
+  dhparam:
+  certs:
