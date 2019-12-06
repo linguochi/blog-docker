@@ -37,8 +37,8 @@ services:
     depends_on:
       - letsencrypt
     environment:
-      - VIRTUAL_HOST=blog.sdzjfm.com
-      - LETSENCRYPT_HOST=blog.sdzjfm.com
+      - VIRTUAL_HOST=www.linguochi.com,linguochi.com
+      - LETSENCRYPT_HOST=www.linguochi.com,linguochi.com
       - LETSENCRYPT_EMAIL=linguochi@gmail.com
     volumes:
       - /opt:/app
@@ -48,8 +48,8 @@ services:
     depends_on:
       - lingc-server
     environment:
-      - VIRTUAL_HOST=deploy.sdzjfm.com
-      - LETSENCRYPT_HOST=deploy.sdzjfm.com
+      - VIRTUAL_HOST=deploy.linguochi.com
+      - LETSENCRYPT_HOST=deploy.linguochi.com
       - LETSENCRYPT_EMAIL=linguochi@gmail.com
     volumes:
       - /opt:/app
