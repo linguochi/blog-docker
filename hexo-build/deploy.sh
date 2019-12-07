@@ -6,4 +6,5 @@ cd /app
 git clone https://github.com/linguochi/hexo-blog.git
 cd /app/hexo-blog
 npm install
+hexo clean
 hexo generate
