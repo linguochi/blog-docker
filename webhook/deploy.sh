@@ -7,4 +7,5 @@ cd /app/hexo-blog
 git pull origin master
 
 npm install
+hexo clean
 hexo generate
