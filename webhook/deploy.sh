@@ -6,6 +6,7 @@ git config --global user.name "lingc"
 cd /app/hexo-blog
 git pull origin master
 
-npm install
+npm install  --registry https://registry.npm.taobao.org
+
 hexo clean
 hexo generate

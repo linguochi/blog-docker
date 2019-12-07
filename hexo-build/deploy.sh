@@ -6,6 +6,6 @@ cd /app
 rm -rf hexo-blog
 git clone https://github.com/linguochi/hexo-blog.git
 cd /app/hexo-blog
-npm install
+npm install --registry https://registry.npm.taobao.org
 hexo clean
 hexo generate
