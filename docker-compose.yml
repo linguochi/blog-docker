@@ -37,7 +37,7 @@ services:
     depends_on:
       - letsencrypt
     environment:
-      - VIRTUAL_HOST=linguochi.com
+      - VIRTUAL_HOST=www.linguochi.com,linguochi.com
       - LETSENCRYPT_HOST=www.linguochi.com,linguochi.com
       - LETSENCRYPT_EMAIL=linguochi@gmail.com
     volumes:
