@@ -8,6 +8,7 @@ services:
   nginx-proxy:
     image: jwilder/nginx-proxy
     container_name: nginx-proxy
+    privileged: true
     ports:
       - "80:80"
       - "443:443"
@@ -21,6 +22,7 @@ services:
   letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
     container_name: letsencrypt
+    privileged: true
     depends_on:
       - nginx-proxy
     volumes:
