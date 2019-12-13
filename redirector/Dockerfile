@@ -5,7 +5,7 @@ WORKDIR /www
 COPY package*.json ./
 RUN npm install --only=production
 
-COPY server.js /www/
+COPY index.js /www/
 
 EXPOSE 80
 
