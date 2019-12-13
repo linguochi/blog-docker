@@ -39,17 +39,11 @@ services:
     depends_on:
       - letsencrypt
     environment:
-      - VIRTUAL_HOST=linguochi.com
-      - LETSENCRYPT_HOST=linguochi.com
+      - VIRTUAL_HOST=linguochi.com,www.linguochi.com
+      - LETSENCRYPT_HOST=linguochi.com,www.linguochi.com
       - LETSENCRYPT_EMAIL=linguochi@gmail.com
     volumes:
       - /opt:/app
-  redirect:
-    image: adamkdean/redirect
-    environment:
-      - VIRTUAL_HOST=www.linguochi.com
-      - REDIRECT_LOCATION="http://linguochi.com"
-      - REDIRECT_STATUS_CODE=301
   lingc-webhook:
     image: linguochi/lingc-webhook
     container_name: lingc-webhook
