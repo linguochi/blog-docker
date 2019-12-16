@@ -3,7 +3,7 @@ FROM node:alpine
 WORKDIR /www
 
 COPY package*.json ./
-RUN npm install --only=production
+RUN npm install --only=production --registry=https://registry.npm.taobao.org
 
 COPY index.js /www/
 

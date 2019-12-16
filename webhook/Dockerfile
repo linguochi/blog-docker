@@ -1,5 +1,5 @@
 FROM node:alpine
-RUN npm install -g hexo-cli
+RUN npm install -g hexo-cli --registry=https://registry.npm.taobao.org
 COPY ./webhook /opt/webhook/webhook
 COPY ./hooks.json /opt/webhook/hooks.json
 COPY ./deploy.sh /opt/webhook/deploy.sh
