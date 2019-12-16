@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:alpine
 RUN npm install -g hexo-cli
 COPY ./webhook /opt/webhook/webhook
 COPY ./hooks.json /opt/webhook/hooks.json
