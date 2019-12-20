@@ -3,6 +3,9 @@ RUN npm install -g hexo-cli --registry=https://registry.npm.taobao.org
 COPY ./webhook /opt/webhook/webhook
 COPY ./hooks.json /opt/webhook/hooks.json
 COPY ./deploy.sh /opt/webhook/deploy.sh
+RUN apk update && \
+    apk upgrade && \
+    apk add --no-cache bash git openssh
 RUN chmod +x /opt/webhook/deploy.sh
 EXPOSE 9000
 VOLUME /app
