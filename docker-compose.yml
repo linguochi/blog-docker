@@ -59,7 +59,7 @@ services:
       - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
       - /var/www/html:/var/www/html
       - /opt/hexo-blog:/var/www/html/hexo-blog
-      - /opt/nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx:/etc/nginx/conf.d
       - /opt/nginx/ssl:/etc/nginx/ssl
       - /opt/nginx/logs:/var/log/nginx
     links:
