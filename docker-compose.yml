@@ -1,72 +1,80 @@
 version: "3"
+
 services:
   hexo-build:
     image: linguochi/hexo-build
     container_name: hexo-build
     volumes:
       - /opt:/app
-  nginx-proxy:
-    image: jwilder/nginx-proxy
-    container_name: nginx-proxy
-    privileged: true
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - conf:/etc/nginx/conf.d
-      - vhost:/etc/nginx/vhost.d
-      - html:/usr/share/nginx/html
-      - dhparam:/etc/nginx/dhparam
-      - certs:/etc/nginx/certs:ro
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-  letsencrypt:
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    container_name: letsencrypt
-    privileged: true
-    depends_on:
-      - nginx-proxy
-    volumes:
-      - vhost:/etc/nginx/vhost.d
-      - html:/usr/share/nginx/html
-      - dhparam:/etc/nginx/dhparam:ro
-      - certs:/etc/nginx/certs
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    environment:
-      - NGINX_PROXY_CONTAINER=nginx-proxy
-  lingc-server:
+
+  hexo-blog:
     image: linguochi/hexo-blog
     container_name: hexo-blog
-    depends_on:
-      - letsencrypt
-    environment:
-      - VIRTUAL_HOST=linguochi.com
-      - LETSENCRYPT_HOST=linguochi.com
-      - LETSENCRYPT_EMAIL=linguochi@gmail.com
     volumes:
       - /opt:/app
+
   lingc-redirector:
     image: linguochi/redirector
     container_name: redirector
-    depends_on:
-      - letsencrypt
-    environment:
-      - VIRTUAL_HOST=www.linguochi.com
-      - LETSENCRYPT_HOST=www.linguochi.com
-      - LETSENCRYPT_EMAIL=linguochi@gmail.com
+
   lingc-webhook:
     image: linguochi/lingc-webhook
     container_name: lingc-webhook
     depends_on:
-      - lingc-server
-    environment:
-      - VIRTUAL_HOST=deploy.linguochi.com
-      - LETSENCRYPT_HOST=deploy.linguochi.com
-      - LETSENCRYPT_EMAIL=linguochi@gmail.com
+      - hexo-blog
     volumes:
       - /opt:/app
-volumes:
-  conf:
-  vhost:
-  html:
-  dhparam:
-  certs:
+
+  qinglong:
+    image: whyour/qinglong:latest
+    container_name: qinglong
+    volumes:
+      - /opt/qinglong/data/config:/ql/config
+      - /opt/qinglong/data/log:/ql/log
+      - /opt/qinglong/data/db:/ql/db
+      - /opt/qinglong/data/scripts:/ql/scripts
+      - /opt/qinglong/data/repo:/ql/repo
+    ports:
+      - "5700:5700"
+    environment:
+      - ENABLE_HANGUP=true
+      - ENABLE_WEB_PANEL=true
+
+  acme:
+    image: neilpang/acme.sh
+    container_name: acme
+    restart: unless-stopped
+    environment:
+      - DP_Id=268714
+      - DP_Key=806c61d86f03c42caa1987e8e9de5344
+      - DEPLOY_DOCKER_CONTAINER_LABEL=docker_nginx
+      - DEPLOY_DOCKER_CONTAINER_KEY_FILE=/etc/nginx/ssl/*.linguochi.com/*.linguochi.com.key
+      - DEPLOY_DOCKER_CONTAINER_FULLCHAIN_FILE=/etc/nginx/ssl/*.linguochi.com/fullchain.cer
+      - DEPLOY_DOCKER_CONTAINER_RELOAD_CMD=nginx -s reload
+    volumes:
+      - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /opt/nginx/acme.sh:/acme.sh
+      - /opt/nginx/ssl:/etc/nginx/ssl
+    command: daemon
+
+  nginx:
+    image: nginx
+    container_name: nginx
+    privileged: true
+    restart: always
+    volumes:
+      - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
+      - /var/www/html:/var/www/html
+      - /opt/nginx/conf.d:/etc/nginx/conf.d
+      - /opt/nginx/ssl:/etc/nginx/ssl
+      - /opt/nginx/logs:/var/log/nginx
+    links:
+      - hexo-blog
+      - qinglong
+    ports:
+      - "80:80"
+      - "443:443"
+    labels:
+      - docker_nginx
+
