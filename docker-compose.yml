@@ -7,10 +7,6 @@ services:
     volumes:
       - /opt:/app
 
-  lingc-redirector:
-    image: linguochi/redirector
-    container_name: redirector
-
   lingc-webhook:
     image: linguochi/lingc-webhook
     container_name: lingc-webhook
