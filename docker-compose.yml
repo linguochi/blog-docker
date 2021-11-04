@@ -7,12 +7,6 @@ services:
     volumes:
       - /opt:/app
 
-  hexo-blog:
-    image: linguochi/hexo-blog
-    container_name: hexo-blog
-    volumes:
-      - /opt:/app
-
   lingc-redirector:
     image: linguochi/redirector
     container_name: redirector
@@ -20,8 +14,6 @@ services:
   lingc-webhook:
     image: linguochi/lingc-webhook
     container_name: lingc-webhook
-    depends_on:
-      - hexo-blog
     volumes:
       - /opt:/app
 
@@ -66,11 +58,11 @@ services:
     volumes:
       - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
       - /var/www/html:/var/www/html
+      - /opt/hexo-blog:/var/www/html/hexo-blog
       - /opt/nginx/conf.d:/etc/nginx/conf.d
       - /opt/nginx/ssl:/etc/nginx/ssl
       - /opt/nginx/logs:/var/log/nginx
     links:
-      - hexo-blog
       - qinglong
     ports:
       - "80:80"
