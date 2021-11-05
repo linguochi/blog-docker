@@ -71,8 +71,6 @@ services:
     volumes:
       - ${ARIA2_CONFIG_PATH}:/config
       - ${TEMP_FOLDER_PATH}:/downloads
-    networks:
-      - cloudreve-network
     restart: unless-stopped
 
   cloudreve:
@@ -86,8 +84,6 @@ services:
       - ${CLOUDREVE_CONF_PATH}:/cloudreve/config
       - ${CLOUDREVE_DB_PATH}:/cloudreve/db
       - ${CLOUDREVE_AVATAR_PATH}:/cloudreve/avatar
-    networks:
-      - cloudreve-network
 
   nginx:
     image: nginx
@@ -108,6 +104,3 @@ services:
       - "443:443"
     labels:
       - docker_nginx
-
-networks:
-  cloudreve-network:
