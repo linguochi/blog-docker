@@ -46,6 +46,15 @@ services:
       - /opt/nginx/ssl:/etc/nginx/ssl
     command: daemon
 
+  bark-server:
+    image: finab/bark-server
+    container_name: bark-server
+    restart: always
+    volumes:
+      - ./data:/data
+    ports:
+      - "8080:8080"
+
   nginx:
     image: nginx
     container_name: nginx
@@ -55,7 +64,6 @@ services:
       - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
       - /var/www/html:/var/www/html
       - /opt/hexo-blog:/var/www/html/hexo-blog
-      - ./nginx:/etc/nginx/conf.d
       - /opt/nginx/ssl:/etc/nginx/ssl
       - /opt/nginx/logs:/var/log/nginx
     links:
@@ -65,4 +73,3 @@ services:
       - "443:443"
     labels:
       - docker_nginx
-
