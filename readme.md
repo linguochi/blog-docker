@@ -12,7 +12,7 @@ cat ***domain.key
 
 首次部署
 先申请
-docker exec -i acme acme.sh --issue --dns dns_dp -d *.linguochi.com -d linguochi.com --server letsencrypt
+docker exec -i acme acme.sh --issue --dns dns_dp -d *.linguochi.com -d linguochi.com
 
 再部署
 docker exec -i acme acme.sh --deploy -d *.linguochi.com -d linguochi.com --deploy-hook docker
