@@ -63,6 +63,7 @@ services:
     volumes:
       - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
       - /var/www/html:/var/www/html
+      - ./nginx:/etc/nginx/conf.d
       - /opt/hexo-blog:/var/www/html/hexo-blog
       - /opt/nginx/ssl:/etc/nginx/ssl
       - /opt/nginx/logs:/var/log/nginx
