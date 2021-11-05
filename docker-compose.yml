@@ -57,6 +57,7 @@ services:
 
   aria2:
     image: p3terx/aria2-pro
+    container_name: aria2
     logging:
       options:
         max-size: 1m
@@ -75,6 +76,7 @@ services:
 
   cloudreve:
     image: xavierniu/cloudreve
+    container_name: cloudreve
     environment:
       - PUID=${CLOUDREVE_PUID}
       - PGID=${CLOUDREVE_PGID}
