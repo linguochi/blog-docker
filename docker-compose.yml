@@ -77,6 +77,8 @@ services:
   cloudreve:
     image: xavierniu/cloudreve
     container_name: cloudreve
+    env_file:
+      - ./.env
     environment:
       - PUID=${CLOUDREVE_PUID}
       - PGID=${CLOUDREVE_PGID}
