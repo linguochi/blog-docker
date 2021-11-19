@@ -89,6 +89,16 @@ services:
       - ${CLOUDREVE_DB_PATH}:/cloudreve/db
       - ${CLOUDREVE_AVATAR_PATH}:/cloudreve/avatar
 
+  wizserver:
+    container_name: wizserver
+    build: ./wizserver
+    restart: always
+    ports:
+      - "9269:9269/udp"
+    volumes:
+      - /opt/wizdata:/wiz/storage
+      - /etc/localtime:/etc/localtime
+
   nginx:
     image: nginx
     container_name: nginx
