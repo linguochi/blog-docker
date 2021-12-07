@@ -75,7 +75,7 @@ services:
     restart: unless-stopped
 
   cloudreve:
-    image: xavierniu/cloudreve
+    image: xavierniu/cloudreve:sha-7e00890
     container_name: cloudreve
     env_file:
       - ./.env
@@ -98,6 +98,11 @@ services:
     volumes:
       - /opt/wizdata:/wiz/storage
       - /etc/localtime:/etc/localtime
+
+  fileview:
+    container_name: fileview
+    image: keking/kkfileview
+    restart: always
 
   nginx:
     image: nginx
