@@ -46,6 +46,39 @@ services:
       - /opt/nginx/ssl:/etc/nginx/ssl
     command: daemon
 
+  easymock:
+    image: easymock/easymock:latest
+    container_name: easymock
+    ports:
+      - "7300:7300"
+    privileged: true
+    command: /bin/bash -c "npm start"
+    volumes:
+      # 日志地址，根据需要修改为本地地址
+      - './easymock/logs:/home/easy-mock/easy-mock/logs'
+      # 配置地址，请使用本地配置地址替换
+      - './easymock/easymock.json:/home/easy-mock/easy-mock/config/production.json'
+    restart: always
+
+  mongodb:
+    image: mongo:3.4
+    container_name: mongodb
+    privileged: true
+    volumes:
+      # ./data/db 数据库文件存放地址，根据需要修改为本地地址 挂载当前目录下的/data/db到容器中的 /data/db 无需使用绝对路径
+      - '/opt/mongodb/db:/data/db'
+    restart: always
+
+  redis:
+    image: redis:4.0.6
+    container_name: redis
+    privileged: true
+    command: redis-server --appendonly yes
+    volumes:
+      # ./data/redis redis 数据文件存放地址，根据需要修改为本地地址  挂载当前目录下的/data/redis 到容器中的/data 无需使用绝对路径
+      - '/opt/data/redis:/data'
+    restart: always
+
   bark-server:
     image: finab/bark-server
     container_name: bark-server
@@ -95,6 +128,7 @@ services:
     restart: always
     ports:
       - "9269:9269/udp"
+      - "8011:80"
     volumes:
       - /opt/wizdata:/wiz/storage
       - /etc/localtime:/etc/localtime
