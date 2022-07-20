@@ -104,11 +104,11 @@ services:
       - RPC_SECRET=${ARIA2_RPC_SECRET}
     volumes:
       - ${ARIA2_CONFIG_PATH}:/config
-      - ${TEMP_FOLDER_PATH}:/downloads
+      - ${TEMP_FOLDER_PATH}:/data
     restart: unless-stopped
 
   cloudreve:
-    image: xavierniu/cloudreve:sha-7e00890
+    image: cloudreve/cloudreve:latest
     container_name: cloudreve
     env_file:
       - ./.env
@@ -117,8 +117,9 @@ services:
       - PGID=${CLOUDREVE_PGID}
     volumes:
       - ${CLOUDREVE_UPLOAD_PATH}:/cloudreve/uploads
-      - ${TEMP_FOLDER_PATH}:/downloads
-      - ${CLOUDREVE_CONF_PATH}:/cloudreve/config
+      - ${TEMP_FOLDER_PATH}:/data
+#      - ${CLOUDREVE_CONF_PATH}:/cloudreve/config
+      - ${CLOUDREVE_CONF_PATH}:/cloudreve/conf.ini
       - ${CLOUDREVE_DB_PATH}:/cloudreve/db
       - ${CLOUDREVE_AVATAR_PATH}:/cloudreve/avatar
 
