@@ -158,3 +158,14 @@ services:
       - "443:443"
     labels:
       - docker_nginx
+
+  nodered:
+    image: nodered/node-red:latest
+    container_name: nodered
+    ports:
+      - "1880:1880"
+    environment:
+      - TZ=Asia/Shanghai
+    restart: always
+    volumes:
+      - /opt/nodered/data:/data
