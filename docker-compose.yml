@@ -17,13 +17,9 @@ services:
     image: whyour/qinglong:latest
     container_name: qinglong
     volumes:
-      - /opt/qinglong/data/config:/ql/config
-      - /opt/qinglong/data/log:/ql/log
-      - /opt/qinglong/data/db:/ql/db
-      - /opt/qinglong/data/scripts:/ql/scripts
-      - /opt/qinglong/data/repo:/ql/repo
+      - /opt/qinglong/data:/ql/data
     ports:
-      - "5700:5700"
+      - "0.0.0.0:5700:5700"
     environment:
       - ENABLE_HANGUP=true
       - ENABLE_WEB_PANEL=true
