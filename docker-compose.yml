@@ -114,7 +114,7 @@ services:
     volumes:
       - ${CLOUDREVE_UPLOAD_PATH}:/cloudreve/uploads
       - ${TEMP_FOLDER_PATH}:/data
-#      - ${CLOUDREVE_CONF_PATH}:/cloudreve/config
+      #      - ${CLOUDREVE_CONF_PATH}:/cloudreve/config
       - ${CLOUDREVE_CONF_PATH}:/cloudreve/conf.ini
       - ${CLOUDREVE_DB_PATH}:/cloudreve/db
       - ${CLOUDREVE_AVATAR_PATH}:/cloudreve/avatar
@@ -174,7 +174,7 @@ services:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
     volumes:
-      - /opt/wordpress:/var/lib/mysql
+      - /opt/mysql:/var/lib/mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: somewordpress
@@ -187,8 +187,10 @@ services:
       - mysql
     image: wordpress:latest
     container_name: wordpress
-#    ports:
-#      - "8000:80"
+    volumes:
+      - /opt/wordpress:/var/www/html
+    #    ports:
+    #      - "8000:80"
     restart: always
     environment:
       WORDPRESS_DB_HOST: mysql:3306
